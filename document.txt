@@ -1,0 +1,7 @@
+1, 本代码采用OOP编写，其中父类为Home，ASCII继承Home，Conversation继承ASCII，以此类推
+2, 从最小的子类开始实例化，可以享受上面父类重写的所有方法。
+3, 想要增加功能只需要继承Conversation类，super()调用Conversation类的__init__函数获得root以及变量，最后重写menu方法，将目录写好即可。
+
+4, 图片与py文件必须在统一目录下，如果出现报错，_
+“ tkinter.TclError: couldn't open "Pinkpig.PNG": no such file or directory ”
+就把这一句{self.root.iconphoto(False, PhotoImage(file='Pinkpig.PNG'))}删除或者注释掉

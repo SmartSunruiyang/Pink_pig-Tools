@@ -1,4 +1,4 @@
-# Create by ruiyang in 2022/12/16 ~ Version: Python 3.9
+# Create by ruiyang in 2022/12/16 ~ Version: Python 3.10
 from tkinter import *
 from pyperclip import *
 from tkinter import messagebox

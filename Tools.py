@@ -38,6 +38,22 @@ class Home:
         main_menu.add_cascade(label="目录", menu=menu_contents)
         self.root.config(menu=main_menu)
 
+    # 关于窗口
+    def about_window(self):
+        self.destroy_all()
+        self.menu()
+        Label(self.root, text='\n\n\n\n编码unicode都采用UTF-8字符编码\n更多功能持续开发中😽\n', relief=FLAT).pack()
+        Button(self.root, text='复制github地址', command=self.copy_github, cursor='star', relief=RAISED).pack()
+        Label(self.root, text='Author: @Rui-yang', font='monaco', relief=FLAT).pack(side=BOTTOM)
+        logging.info('about - succeed in creating widgets')
+
+    @staticmethod
+    # 复制github地址
+    def copy_github():
+        copy('https://github.com/SmartSunruiyang/Pink_pig-Tools.git')
+        messagebox.showinfo('复制成功！', '已复制github地址到剪切板')
+        logging.info('copy - succeed in copying github address')
+
     # 删除窗口所有控件
     def destroy_all(self):
         # 父类清空控件方法
@@ -126,7 +142,6 @@ class EncodeConversation(Home):
     def __change_reverse(self):
         data_string = ''
         ascii_string = self.user_input.get()
-        ascii_list = []
         status = True
         # 将用户输入的ASCII分隔成列表
         if ascii_string.startswith('&#'):
@@ -165,7 +180,6 @@ class EncodeConversation(Home):
     def __change_unicode(self):
         data_string = ''
         ascii_string = self.user_input.get()
-        ascii_list = []
         status = True
         # 将用户输入的ASCII分隔成列表
         if ascii_string.startswith('&#'):
@@ -275,6 +289,7 @@ class EncodeConversation(Home):
     # 复制ASCII
     def __copy(self):
         copy(self.user_input.get())
+        messagebox.showinfo('复制成功！', '已复制到剪贴板')
         logging.info('copy - succeed in copying self.user_input -> StringVar()')
 
     # 清空输入框
@@ -302,29 +317,24 @@ class BaseConversation(EncodeConversation):
         main_menu.add_cascade(label="目录", menu=menu_contents)
         menu_contents.add_command(label="编码转换工具", command=self.encode_window)
         menu_contents.add_command(label="进制转换工具", command=self.conversation_window)
-        menu_contents.add_command(label="关于", command=self.__about_window)
+        menu_contents.add_command(label="关于", command=self.about_window)
         self.root.config(menu=main_menu)
 
     def conversation_window(self):
         self.__conversation_window()
-
-    # 关于窗口
-    def __about_window(self):
-        self.destroy_all()
-        Label(self.root, text='\n\n\n\n编码unicode都采用UTF-8字符编码\n更多功能持续开发中😽', relief=FLAT).pack()
-        Label(self.root, text='Author: @Rui-yang', font='monaco', relief=FLAT).pack(side=BOTTOM)
-        logging.info('about - succeed in creating widgets')
 
     # 主要部件
     def __conversation_window(self):
         self.destroy_all()
         self.__menu_conversation()
         command_list = ['二进制', '八进制', '十进制', '十六进制']
-        self.combobox_object = ttk.Combobox(self.root, textvariable=self._choice, values=command_list)
+        self.combobox_object = ttk.Combobox(self.root, textvariable=self._choice, values=command_list,
+                                            state='readonly')
         self.combobox_object.pack()
         Entry(self.root, textvariable=self.user_input).pack()
         Label(self.root, text='转化为', relief=FLAT).pack()
-        self.combobox_target = ttk.Combobox(self.root, textvariable=self._choice_2, values=command_list)
+        self.combobox_target = ttk.Combobox(self.root, textvariable=self._choice_2, values=command_list,
+                                            state='readonly')
         self.combobox_target.pack()
         Entry(self.root, textvariable=self.show_entry).pack()
         Button(self.root, text='转换', command=self.__change_base).pack()
@@ -368,6 +378,7 @@ class BaseConversation(EncodeConversation):
     # 复制进制转换后的数
     def __copy(self):
         copy(self.show_entry.get())
+        messagebox.showinfo('复制成功！', '已复制进制转换后的数到剪切板')
         logging.info('copy - succeed in copying self.show_entry -> StringVar()')
 
     # 清空输入框

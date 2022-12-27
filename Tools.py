@@ -3,6 +3,7 @@ from tkinter import *
 from pyperclip import *
 from tkinter import messagebox
 from tkinter import ttk
+import random
 import logging
 import re
 
@@ -93,7 +94,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change).pack()
-        Button(self.root, text='复制', command=self.__copy).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - succeed in creating widgets')
@@ -122,7 +123,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_reverse).pack()
-        Button(self.root, text='复制', command=self.__copy).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - reverse - succeed in creating widgets')
@@ -171,7 +172,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_unicode).pack()
-        Button(self.root, text='复制', command=self.__copy).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -209,7 +210,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_unicode_reverse).pack()
-        Button(self.root, text='复制', command=self.__copy).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -238,7 +239,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_unicode_string).pack()
-        Button(self.root, text='复制', command=self.__copy).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -267,7 +268,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_string_unicode).pack()
-        Button(self.root, text='复制', command=self.__copy).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -287,7 +288,7 @@ class EncodeConversation(Home):
             messagebox.showerror('错误！', '请输入正确的字符串')
 
     # 复制ASCII
-    def __copy(self):
+    def copy(self):
         copy(self.user_input.get())
         messagebox.showinfo('复制成功！', '已复制到剪贴板')
         logging.info('copy - succeed in copying self.user_input -> StringVar()')
@@ -302,8 +303,8 @@ class EncodeConversation(Home):
 class BaseConversation(EncodeConversation):
     def __init__(self):
         super(BaseConversation, self).__init__()
-        self._choice = StringVar()
-        self._choice_2 = StringVar()
+        self.choice = StringVar()
+        self.choice_2 = StringVar()
         self.show_entry = StringVar()
         self.combobox_object = None
         self.combobox_target = None
@@ -328,17 +329,17 @@ class BaseConversation(EncodeConversation):
         self.destroy_all()
         self.__menu_conversation()
         command_list = ['二进制', '八进制', '十进制', '十六进制']
-        self.combobox_object = ttk.Combobox(self.root, textvariable=self._choice, values=command_list,
+        self.combobox_object = ttk.Combobox(self.root, textvariable=self.choice, values=command_list,
                                             state='readonly')
         self.combobox_object.pack()
         Entry(self.root, textvariable=self.user_input).pack()
         Label(self.root, text='转化为', relief=FLAT).pack()
-        self.combobox_target = ttk.Combobox(self.root, textvariable=self._choice_2, values=command_list,
+        self.combobox_target = ttk.Combobox(self.root, textvariable=self.choice_2, values=command_list,
                                             state='readonly')
         self.combobox_target.pack()
         Entry(self.root, textvariable=self.show_entry).pack()
         Button(self.root, text='转换', command=self.__change_base).pack()
-        Button(self.root, text='复制', command=self.__copy).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - bin To dec - succeed in creating widgets')
@@ -376,9 +377,9 @@ class BaseConversation(EncodeConversation):
             logging.error('change - number is not exist')
 
     # 复制进制转换后的数
-    def __copy(self):
+    def copy(self):
         copy(self.show_entry.get())
-        messagebox.showinfo('复制成功！', '已复制进制转换后的数到剪切板')
+        messagebox.showinfo('复制成功！', '已复制到剪切板')
         logging.info('copy - succeed in copying self.show_entry -> StringVar()')
 
     # 清空输入框
@@ -398,12 +399,86 @@ class BaseConversation(EncodeConversation):
             item.destroy()
 
 
+class RandomNumberGenerator(BaseConversation):
+    def __init__(self):
+        super(RandomNumberGenerator, self).__init__()
+        self.user_input_object = StringVar()
+        self.user_input_target = StringVar()
+
+    def menu(self):
+        # 菜单父容器，参数写窗口
+        main_menu = Menu(self.root)
+        # 菜单子容器，参数写父容器
+        menu_contents = Menu(main_menu)
+        # 菜单项
+        main_menu.add_cascade(label="目录", menu=menu_contents)
+        menu_contents.add_command(label="编码转换工具", command=self.encode_window)
+        menu_contents.add_command(label="进制转换工具", command=self.conversation_window)
+        menu_contents.add_command(label="随机数生成器", command=self.random_number_window)
+        menu_contents.add_command(label="关于", command=self.about_window)
+        self.root.config(menu=main_menu)
+
+    def random_number_menu(self):
+        # 菜单父容器，参数写窗口
+        main_menu = Menu(self.root)
+        # 菜单子容器
+        menu_contents = Menu(main_menu)
+        # 菜单项
+        main_menu.add_cascade(label="目录", menu=menu_contents)
+        menu_contents.add_command(label="主页", command=self.home)
+        self.root.config(menu=main_menu)
+
+    def random_number_window(self):
+        self.destroy_all()
+        self.random_number_menu()
+        self.show_entry.set('请在下方输入框中输入生成区间和生成个数')
+        command_list = ['单个生成', '不重复多个生成', '重复多个生成']
+        self.combobox_object = ttk.Combobox(self.root, textvariable=self.choice, values=command_list,
+                                            state='readonly')
+        self.combobox_object.pack()
+        Label(self.root, textvariable=self.show_entry, relief=SUNKEN, background='pink', font=('monaco', 10)).pack()
+        Entry(self.root, textvariable=self.user_input_object).pack()
+        self.user_input_object.set('起值')
+        Entry(self.root, textvariable=self.user_input_target).pack()
+        self.user_input_target.set('终值')
+        Entry(self.root, textvariable=self.user_input).pack()
+        self.user_input.set('个数')
+        Button(self.root, text='生成', command=self.__change_random_number).pack()
+        Button(self.root, text='复制', command=self.copy).pack()
+        # 清空输入框的按钮
+        Button(self.root, text='清空', command=self.__clear).pack()
+        logging.info('main_window - random number - succeed in creating widgets')
+
+    # 生成随机数并显示
+    def __change_random_number(self):
+        try:
+            user_input_object = self.user_input_object.get()
+            user_input_target = self.user_input_target.get()
+            user_input_num = self.user_input.get()
+            user_mode = self.combobox_object.current()
+            command_dict = {
+                0: lambda x, y: random.randint(int(x), int(y)),
+                1: lambda x, y: random.sample(range(int(x), int(y) + 1), int(user_input_num)),  # 选取后不放回
+                2: lambda x, y: random.choices(range(int(x), int(y) + 1), k=int(user_input_num))  # 选取后放回
+            }
+            self.show_entry.set(command_dict[user_mode](user_input_object, user_input_target))
+            logging.info('change - succeed in changing self.show_entry -> StringVar()')
+        except ValueError:
+            messagebox.showerror('错误！', '请输入正确的区间')
+            self.__clear()
+            logging.error('change - number is not exist')
+
+    # 重写clear方法
+    def __clear(self):
+        self.user_input_object.set('')
+        self.user_input_target.set('')
+        self.user_input.set('')
+        self.show_entry.set('')
+        logging.info('clear - succeed in clearing self.user_input -> StringVar()')
+        logging.info('clear - succeed in clearing self.show_entry -> StringVar()')
+
+
 # 从最子类实例化
 if __name__ == '__main__':
-    BaseConversation().home()
+    RandomNumberGenerator().home()
     mainloop()
-
-
-
-
-

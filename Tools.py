@@ -17,9 +17,9 @@ class Home:
         self.root.title("Tools")
         # 设置图标，此处的False表示此图标图像仅适用于此特定窗口，但不适用于未来创建的顶层。
         self.root.iconphoto(False, PhotoImage(file='Pinkpig.PNG'))
-        # 可变变量
+        # 变量
         self.user_input = StringVar()
-        self.user_input_part = None
+        self.temp_variable = None
         logging.basicConfig(level=logging.INFO, format=' %(asctime)s - %(levelname)s - %(message)s')
         logging.info('__init__ - succeed in setting variables')
 
@@ -110,8 +110,8 @@ class EncodeConversation(Home):
         menu_contents.add_command(label="ASCII转换字符", command=self.__reverse_window)
         menu_contents.add_command(label="ASCII转unicode", command=self.__unicode_window)
         menu_contents.add_command(label="unicode转ASCII", command=self.__unicode_reverse_window)
-        menu_contents.add_command(label="unicode转字符", command=self.home)
-        menu_contents.add_command(label="字符转unicode", command=self.home)
+        menu_contents.add_command(label="unicode转字符", command=self.__unicode_string_window)
+        menu_contents.add_command(label="字符转unicode", command=self.__string_unicode_window)
         menu_contents.add_command(label="主页", command=self.home)
         self.root.config(menu=main_menu)
 
@@ -163,6 +163,7 @@ class EncodeConversation(Home):
         except Exception as e:
             logging.error(f'change - ASCII is not exist or {e}')
             messagebox.showerror('错误！', '请输入正确的ASCII码并用-空格，逗号，分号隔开')
+            self.user_input.set('')
 
     # ASCII转unicode窗口
     def __unicode_window(self):
@@ -201,6 +202,7 @@ class EncodeConversation(Home):
         except Exception as e:
             logging.error(f'change - unicode - ASCII is not exist or {e}')
             messagebox.showerror('错误！', '请输入正确的ASCII码并用-空格，逗号，分号隔开')
+            self.user_input.set('')
 
     # unicode转ASCII窗口
     def __unicode_reverse_window(self):
@@ -230,6 +232,7 @@ class EncodeConversation(Home):
         except Exception as e:
             logging.error(f'change - unicode - reverse - unicode is not exist or {e}')
             messagebox.showerror('错误！', '请输入正确的unicode UTF-8码')
+            self.user_input.set('')
 
     # unicode转字符串窗口
     def __unicode_string_window(self):
@@ -259,6 +262,7 @@ class EncodeConversation(Home):
         except Exception as e:
             logging.error(f'change - unicode - string - unicode is not exist or {e}')
             messagebox.showerror('错误！', '请输入正确的unicode UTF-8码')
+            self.user_input.set('')
 
     # 字符串转unicode窗口
     def __string_unicode_window(self):
@@ -286,6 +290,7 @@ class EncodeConversation(Home):
         except Exception as e:
             logging.error(f'change - string - unicode - string is not exist or {e}')
             messagebox.showerror('错误！', '请输入正确的字符串')
+            self.user_input.set('')
 
     # 复制ASCII
     def copy(self):

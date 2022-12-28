@@ -1,6 +1,12 @@
 # Pink_pig-Tools
 encode and base conversation tool which is based on Python tinter
 
+---
+
+# Developer read document.txt first!
+
+---
+
 ## 1、How to use this tool
 
 

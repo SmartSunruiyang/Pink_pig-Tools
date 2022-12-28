@@ -8,7 +8,7 @@ encode and base conversation tool which is based on Python tinter
 
 ---
 2, You can open the .py file in idle or other Python IDE, this tool is made of pure Python. All in all, you must have Python coding environment and you must have already installed tkinter
-you can use "pip install tkinter"command.
+you can use "pip install tkinter"command to install this package.
 
 ---
 

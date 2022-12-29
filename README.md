@@ -1,7 +1,7 @@
 # Pink_pig-Tools
 Useful tool which is based on Python tinter
 
-# MacOS用户直接下载dmg文件拖入Applications文件夹即可！
+# MacOS用户下载zip后打开dmg文件，将PinkPigTool拖入Applications文件夹即可！
 # Windows用户下载Python文件，如果有Python环境，使用IDLE或者其他IDE打开即可！
 # 开发者阅读document.txt
 ---

@@ -3,6 +3,7 @@ from tkinter import *
 from pyperclip import *
 from tkinter import messagebox
 from tkinter import ttk
+import tkinter.colorchooser
 import random
 import logging
 import re
@@ -16,7 +17,7 @@ class Home:
         self.root.geometry("400x220+640+360")
         self.root.title("Tools")
         # 设置图标，此处的False表示此图标图像仅适用于此特定窗口，但不适用于未来创建的顶层。
-        self.root.iconphoto(False, PhotoImage(file='Pinkpig.PNG'))
+        # self.root.iconphoto(False, PhotoImage(file='Pinkpig.PNG'))
         # 变量
         self.user_input = StringVar()
         self.temp_variable = None
@@ -43,9 +44,10 @@ class Home:
     def about_window(self):
         self.destroy_all()
         self.menu()
-        Label(self.root, text='\n\n\n\n编码unicode都采用UTF-8字符编码\n更多功能持续开发中😽\n', relief=FLAT).pack()
+        Label(self.root, text='\n\n\n更多功能持续开发中😽\n', relief=FLAT).pack()
         Button(self.root, text='复制github地址', command=self.copy_github, cursor='star', relief=RAISED).pack()
-        Label(self.root, text='Author: @Rui-yang', font='monaco', relief=FLAT).pack(side=BOTTOM)
+        Button(self.root, text='复制gitcode地址', command=self.copy_gitcode, cursor='star', relief=RAISED).pack()
+        Label(self.root, text='Author: @Rui-yang  QQ: 3148420460', font='monaco', relief=FLAT).pack(side=BOTTOM)
         logging.info('about - succeed in creating widgets')
 
     @staticmethod
@@ -54,6 +56,12 @@ class Home:
         copy('https://github.com/SmartSunruiyang/Pink_pig-Tools.git')
         messagebox.showinfo('复制成功！', '已复制github地址到剪切板')
         logging.info('copy - succeed in copying github address')
+
+    @staticmethod
+    def copy_gitcode():
+        copy('https://gitcode.net/nouniuniu/Pink_pig-Tools.git')
+        messagebox.showinfo('复制成功！', '已复制gitcode地址到剪切板')
+        logging.info('copy - succeed in copying gitcode address')
 
     # 删除窗口所有控件
     def destroy_all(self):
@@ -94,7 +102,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_encode).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - succeed in creating widgets')
@@ -123,7 +131,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_reverse).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_encode).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - reverse - succeed in creating widgets')
@@ -173,7 +181,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_unicode).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_encode).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -212,7 +220,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_unicode_reverse).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_encode).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -242,7 +250,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_unicode_string).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_encode).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -272,7 +280,7 @@ class EncodeConversation(Home):
         self.user_input_part = Entry(self.root, textvariable=self.user_input)
         self.user_input_part.pack()
         Button(self.root, text='转换', command=self.__change_string_unicode).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_encode).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - ascii - unicode - succeed in creating widgets')
@@ -293,7 +301,7 @@ class EncodeConversation(Home):
             self.user_input.set('')
 
     # 复制ASCII
-    def copy(self):
+    def copy_encode(self):
         copy(self.user_input.get())
         messagebox.showinfo('复制成功！', '已复制到剪贴板')
         logging.info('copy - succeed in copying self.user_input -> StringVar()')
@@ -344,7 +352,7 @@ class BaseConversation(EncodeConversation):
         self.combobox_target.pack()
         Entry(self.root, textvariable=self.show_entry).pack()
         Button(self.root, text='转换', command=self.__change_base).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_base).pack()
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - bin To dec - succeed in creating widgets')
@@ -382,7 +390,7 @@ class BaseConversation(EncodeConversation):
             logging.error('change - number is not exist')
 
     # 复制进制转换后的数
-    def copy(self):
+    def copy_base(self):
         copy(self.show_entry.get())
         messagebox.showinfo('复制成功！', '已复制到剪切板')
         logging.info('copy - succeed in copying self.show_entry -> StringVar()')
@@ -449,7 +457,7 @@ class RandomNumberGenerator(BaseConversation):
         Entry(self.root, textvariable=self.user_input).pack()
         self.user_input.set('个数')
         Button(self.root, text='生成', command=self.__change_random_number).pack()
-        Button(self.root, text='复制', command=self.copy).pack()
+        Button(self.root, text='复制', command=self.copy_base).pack()  # 重用复制编码的方法
         # 清空输入框的按钮
         Button(self.root, text='清空', command=self.__clear).pack()
         logging.info('main_window - random number - succeed in creating widgets')
@@ -483,7 +491,77 @@ class RandomNumberGenerator(BaseConversation):
         logging.info('clear - succeed in clearing self.show_entry -> StringVar()')
 
 
+class ColorSelector(RandomNumberGenerator):
+    def __init__(self):
+        super(ColorSelector, self).__init__()
+        self.label = None
+
+    def menu(self):
+        # 菜单父容器，参数写窗口
+        main_menu = Menu(self.root)
+        # 菜单子容器，参数写父容器
+        menu_contents = Menu(main_menu)
+        # 菜单项
+        main_menu.add_cascade(label="目录", menu=menu_contents)
+        menu_contents.add_command(label="编码转换工具", command=self.encode_window)
+        menu_contents.add_command(label="进制转换工具", command=self.conversation_window)
+        menu_contents.add_command(label="随机数生成器", command=self.random_number_window)
+        menu_contents.add_command(label="颜色选择器", command=self.color_selector_window)
+        menu_contents.add_command(label="关于", command=self.about_window)
+        self.root.config(menu=main_menu)
+
+    def color_selector_window(self):
+        self.destroy_all()
+        self.random_number_menu()  # 重用随机数生成器的菜单
+
+        def color_selector():
+            color = tkinter.colorchooser.askcolor()
+            color_str = str(color)
+            self.label.config(text=color_str[-9:-2], background=color_str[-9:-2])
+            self.show_entry.set(color_str[-9:-2])
+            logging.info('color_selector - succeed in changing self.show_entry -> StringVar()')
+
+        Label(self.root, text='\n').pack()
+        self.label = Label(self.root, text='请关注颜色的变化')
+        self.label.pack()
+        Label(self.root, text='\n').pack()
+        Button(self.root, text='弹出颜色选择对话框', command=color_selector).pack()
+        Button(self.root, text='转换为RGB', command=self.to_rgb).pack()
+        Button(self.root, text='转换为16进制', command=self.to_hex).pack()  # 重用复制编码的方法
+        Button(self.root, text='复制颜色', command=self.copy_base).pack()
+        logging.info('main_window - color selector - succeed in creating widgets')
+
+    def to_rgb(self):
+        try:
+            color = str(self.show_entry.get())
+            color = color[1:]
+            length = len(color)
+            rgb = []
+            for i in range(0, length, 2):
+                rgb.append(int(color[i:i + 2], 16))
+            self.show_entry.set(f'({rgb[0]}, {rgb[1]}, {rgb[2]})')
+            self.label.config(text=f'({rgb[0]}, {rgb[1]}, {rgb[2]})')
+            logging.info('to_rgb - succeed in changing self.show_entry -> StringVar()')
+
+        except ValueError:
+            messagebox.showerror('错误！', '请输入正确的颜色')
+            logging.error(f'to_rgb - color is not exist')
+
+    def to_hex(self):
+        try:
+            color = self.show_entry.get()
+            color = color.lstrip('(').rstrip(')').split(',')
+            color = [int(i) for i in color]
+            color = '#%02x%02x%02x' % tuple(color)
+            self.show_entry.set(color)
+            self.label.config(text=color)
+            logging.info('to_hex - succeed in changing self.show_entry -> StringVar()')
+        except ValueError:
+            messagebox.showerror('错误！', '请输入正确的颜色')
+            logging.error('to_hex - color is not exist')
+
+
 # 从最子类实例化
 if __name__ == '__main__':
-    RandomNumberGenerator().home()
+    ColorSelector().home()
     mainloop()
